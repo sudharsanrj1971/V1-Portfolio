@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("DATABASE_URL")
+}
+
+enum ContentStatus {
+  DRAFT
+  PUBLISHED
+  ARCHIVED
+}
+
+enum Role {
+  ADMIN
+  EDITOR
+  VIEWER
+}
+
+model User {
+  id String @id @default(cuid())
+  name String
+  email String @unique
+  passwordHash String
+  role Role @default(ADMIN)
+  refreshToken String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id String @id @default(cuid())
+  title String
+  slug String @unique
+  description String
+  architecture String
+  features String[]
+  techStack String[]
+  screenshotUrl String?
+  githubUrl String?
+  liveUrl String?
+  docsUrl String?
+  caseStudyUrl String?
+  status ContentStatus @default(DRAFT)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Experience {
+  id String @id @default(cuid())
+  company String
+  role String
+  duration String
+  achievements String[]
+  responsibilities String[]
+  technologies String[]
+  status ContentStatus @default(PUBLISHED)
+}
+
+model Research {
+  id String @id @default(cuid())
+  title String
+  abstract String
+  methodology String
+  architectureDiagram String?
+  publicationStatus String
+  pdfUrl String?
+  status ContentStatus @default(DRAFT)
+}
+
+model Certificate {
+  id String @id @default(cuid())
+  credential String
+  issuer String
+  issueDate DateTime
+  verifyUrl String?
+  credentialId String
+  status ContentStatus @default(PUBLISHED)
+}
+
+model Skill {
+  id String @id @default(cuid())
+  group String
+  name String
+  icon String?
+  status ContentStatus @default(PUBLISHED)
+}
+
+model Achievement {
+  id String @id @default(cuid())
+  title String
+  description String
+  status ContentStatus @default(PUBLISHED)
+}
+
+model Message {
+  id String @id @default(cuid())
+  name String
+  email String
+  subject String
+  body String
+  read Boolean @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Analytics {
+  id String @id @default(cuid())
+  key String
+  value Int
+  createdAt DateTime @default(now())
+}
+
+model Resume {
+  id String @id @default(cuid())
+  fileUrl String
+  version String
+  active Boolean @default(true)
+  createdAt DateTime @default(now())
+}
+
+model Media {
+  id String @id @default(cuid())
+  publicId String
+  url String
+  type String
+  alt String?
+  createdAt DateTime @default(now())
+}
+
+model SEO {
+  id String @id @default(cuid())
+  path String @unique
+  title String
+  description String
+  ogImage String?
+  canonical String?
+}
+
+model SocialLink {
+  id String @id @default(cuid())
+  label String
+  url String
+  icon String
+  active Boolean @default(true)
+}
+
+model Setting {
+  id String @id @default(cuid())
+  key String @unique
+  value Json
+}

@@ -1,0 +1,11 @@
+import express from "express";
+import cookieParser from "cookie-parser";
+import { z } from "zod";
+const app = express();
+app.use(express.json({ limit: "2mb" }));
+app.use(cookieParser());
+const paginationSchema = z.object({ page: z.coerce.number().int().positive().default(1), limit: z.coerce.number().int().min(1).max(50).default(10), search: z.string().optional() });
+app.get("/health", (_req, res) => res.json({ ok: true, service: "dev-os-api" }));
+app.get("/api/projects", (req, res) => { const query = paginationSchema.parse(req.query); res.json({ data: [], meta: { ...query, total: 0 } }); });
+app.use((error: unknown, _req: express.Request, res: express.Response, _next: express.NextFunction) => { console.error(error); res.status(500).json({ error: "Internal server error" }); });
+export default app;
