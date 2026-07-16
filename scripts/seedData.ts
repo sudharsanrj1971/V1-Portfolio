@@ -125,6 +125,115 @@ async function main() {
     });
   }
 
+  // --- Seed Experience ---
+  const experiences = [
+    {
+      company: 'Independent Product Lab',
+      role: 'AI Product Developer',
+      duration: '2024 - Present',
+      achievements: [
+        'Built AI-first product prototypes across resume intelligence, automation, and analytics.',
+        'Designed reusable cloud-ready architecture for production portfolio systems.',
+      ],
+      responsibilities: ['Product architecture', 'Full-stack implementation', 'AI feature design'],
+      technologies: ['Next.js', 'Node.js', 'Python', 'PostgreSQL', 'AWS'],
+      status: 'PUBLISHED',
+    },
+    {
+      company: 'Research and Engineering Practice',
+      role: 'Cloud and Blockchain Engineer',
+      duration: '2023 - 2024',
+      achievements: [
+        'Developed decentralized workflow experiments and secure API foundations.',
+        'Documented research methods, architecture tradeoffs, and performance findings.',
+      ],
+      responsibilities: ['Smart contract prototyping', 'API security research', 'Technical documentation'],
+      technologies: ['Solidity', 'Docker', 'Prisma', 'Express', 'Linux'],
+      status: 'PUBLISHED',
+    },
+  ];
+
+  for (const e of experiences) {
+    await prisma.experience.create({ data: e });
+  }
+
+  // --- Seed Research ---
+  const research = [
+    {
+      title: 'AI-Assisted Resume Intelligence',
+      abstract: 'A retrieval-augmented approach to evaluating job fit while preserving explainability for recruiters and candidates.',
+      methodology: 'Embedding search, weighted scoring, rubric validation, and human-in-the-loop review.',
+      architectureDiagram: 'Client upload -> parser -> embeddings -> scorer -> recruiter report.',
+      publicationStatus: 'Draft',
+      status: 'DRAFT',
+    },
+    {
+      title: 'Trust-Minimized Voting Workflows',
+      abstract: 'A practical model for auditable digital voting using wallet identity, event indexing, and public verification.',
+      methodology: 'Threat modeling, smart contract testing, and event-ledger reconciliation.',
+      architectureDiagram: 'Wallet -> ballot contract -> event indexer -> public audit explorer.',
+      publicationStatus: 'In Review',
+      status: 'DRAFT',
+    },
+  ];
+
+  for (const r of research) {
+    await prisma.research.create({ data: r });
+  }
+
+  // --- Seed Skills ---
+  const skillGroups: Record<string, string[]> = {
+    AI: ['LangChain', 'RAG', 'NLP', 'TensorFlow', 'PyTorch', 'Prompt Systems'],
+    Frontend: ['React', 'Next.js', 'TypeScript', 'Tailwind CSS', 'Framer Motion'],
+    Backend: ['Node.js', 'Express', 'PostgreSQL', 'Prisma', 'REST APIs'],
+    Cloud: ['AWS', 'Docker', 'Kubernetes', 'CI/CD', 'Observability'],
+    Blockchain: ['Solidity', 'Web3', 'EVM', 'IPFS', 'Smart Contracts'],
+    DevOps: ['Linux', 'GitHub Actions', 'Logging', 'Rate Limits', 'Security'],
+  };
+
+  for (const [group, items] of Object.entries(skillGroups)) {
+    for (const name of items) {
+      await prisma.skill.create({ data: { group, name, status: 'PUBLISHED' } });
+    }
+  }
+
+  // --- Seed Achievements ---
+  const achievements = [
+    {
+      title: '15+ Certifications',
+      description: 'Validated learning across AI, cloud, full-stack, and blockchain engineering.',
+      status: 'PUBLISHED',
+    },
+    {
+      title: 'Research-Driven Builds',
+      description: 'Every flagship project includes architecture, methodology, and measurable outcomes.',
+      status: 'PUBLISHED',
+    },
+    {
+      title: 'Production Mindset',
+      description: 'Security, accessibility, SEO, and performance are designed into the system.',
+      status: 'PUBLISHED',
+    },
+  ];
+
+  for (const a of achievements) {
+    await prisma.achievement.create({ data: a });
+  }
+
+  // --- Seed Social Links ---
+  const socialLinks = [
+    { label: 'LinkedIn', url: 'https://www.linkedin.com/in/sudharsan-rj1336', icon: 'Linkedin', active: true },
+    { label: 'GitHub', url: 'https://github.com/sudharsanrj1971', icon: 'Github', active: true },
+    { label: 'LeetCode', url: 'https://leetcode.com/u/sudharsan1971/', icon: 'Code2', active: true },
+    { label: 'CodeChef', url: 'https://www.codechef.com/users/sudharsan1971', icon: 'Layers3', active: true },
+    { label: 'Email', url: 'mailto:sudharsanrj1971@gmail.com', icon: 'Mail', active: true },
+    { label: 'Phone', url: 'tel:6381036138', icon: 'Phone', active: true },
+  ];
+
+  for (const s of socialLinks) {
+    await prisma.socialLink.create({ data: s });
+  }
+
   console.log('Seed completed successfully.');
 }
 
